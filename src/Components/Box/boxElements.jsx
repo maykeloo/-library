@@ -79,7 +79,7 @@ export const LogoBar = styled.div`
 
 export const Title = styled.h1`
   margin-top: 10px;
-  font-size: 4em;
+  font-size: 4vw;
   color: white;
 
   @media screen and (max-width: 1200px)
@@ -103,16 +103,10 @@ export const SmallTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 2em;
+  font-size: 3vmin;
   font-weight: 700;
   color: #83c5be;
   justify-content: center;
-
-  
-  @media screen and (max-width: 1200px)
-  {
-    font-size: 1em;
-  }
 `;
 export const InputsBox = styled.div`
   height: 50vh;
@@ -154,12 +148,14 @@ export const Input = styled.input`
   background-color: transparent;
   outline: none;
   margin-left: 20px;
-  font-size: 20px;
+  font-size: 3vmin;
   font-weight: bold;
 
   &::placeholder {
     letter-spacing: 2px;
-    font-size: 18px;
+    padding: 0;
+    margin: 0;
+    font-size: 2.3vmin;
   }
 
   &[type="radio"] {
@@ -194,7 +190,7 @@ export const Input = styled.input`
 
 export const InputSubmit = styled.input`
   padding: 10px 40px;
-  font-size: 22px;
+  font-size: 3vmin;
   color: white;
   background-color: #00afb9;
   border: 2px solid white;
@@ -203,14 +199,13 @@ export const InputSubmit = styled.input`
 `;
 
 export const BookIcon = styled(BsBook)`
-  font-size: 18px;
+      font-size: 2vmax;
 `;
 
 export const PersonIcon = styled(MdOutlinePerson)`
-  font-size: 18px;
+      font-size: 2vmax;
 `;
 
-export const StarIcon = styled(BsStarHalf)``;
 
 export const Label = styled.label`
   background-color: #dcdfe5;
@@ -224,11 +219,12 @@ export const Label = styled.label`
 
 export const Books = styled(Link)`
   color: blue;
+  font-size: 2vmin;
 `;
 
 export const Select = styled.select`
   padding: 10px 40px;
-  font-size: 22px;
+  font-size: 3vmin;
   color: #00afb9;
   background-color: white;
   border: 2px solid #00afb9;

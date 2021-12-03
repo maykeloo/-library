@@ -11,6 +11,7 @@ export const Content = styled.div`
 
 export const ContentBox = styled.div`
   width: 90%;
+  min-height: 100px;
   background-color: white;
   box-shadow: 8px 8px 24px 0px rgba(50, 50, 57, 0.72);
   border-radius: 15px;

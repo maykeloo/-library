@@ -144,7 +144,7 @@ const Main = ({
                     <Label htmlFor="book">
                       <BookIcon />
                       <Input
-                        placeholder="Book title"
+                        placeholder="Harry Potter..."
                         name="book"
                         type="text"
                         ref={bookValue}
@@ -157,7 +157,7 @@ const Main = ({
                     <Label htmlFor="author">
                       <PersonIcon />
                       <Input
-                        placeholder="Book author"
+                        placeholder="J.K. Rowling..."
                         name="author"
                         type="text"
                         ref={authorValue}
@@ -174,7 +174,7 @@ const Main = ({
                         justifyContent: "space-around",
                       }}
                     >
-                      <span>Priority</span>
+                      <span style={{fontSize: '2.5vmin'}}>Priority</span>
                       <div
                         style={{
                           display: "flex",
