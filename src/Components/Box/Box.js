@@ -39,8 +39,6 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 
 const Box = () => {
-
-
   const videos = [video1, video2, video3, video4, video5];
 
   const bookValue = createRef();
@@ -50,31 +48,59 @@ const Box = () => {
 
   const [books, setBooks] = useState([]);
 
+  const [nameError, setNameError] = useState(false);
+  const [authorError, setAuthorError] = useState(false);
+
+  const [priorityNumber, setPriorityNumber] = useState(1);
+
   const getBook = (e) => {
     e.preventDefault();
 
-    setBooks((prev) => [
-      ...prev,
-      {
-        name: `${bookValue.current.value}`,
-        author: `${authorValue.current.value}`,
-        priority: `${priorityValue.current.value}`,
-        genre: `${genreValue.current.value}`,
-      },
-    ]);
+    if (bookValue.current.value.length < 1) {
+      setNameError(true);
+    } 
 
-    let obj = [...books, {
-      name: `${bookValue.current.value}`,
-      author: `${authorValue.current.value}`,
-      priority: `${priorityValue.current.value}`,
-      genre: `${genreValue.current.value}`,
-    }];
+    if (authorValue.current.value.length < 3) {
+      setAuthorError(true);
 
-    localStorage.setItem("book", JSON.stringify(obj));
-    console.log(localStorage);
-    console.log(priorityValue.current.value);
+    }
+
+    if (authorValue.current.value.length >= 3 && bookValue.current.value.length >= 1) {
+
+      setNameError(false);
+      setAuthorError(false);
+
+      setBooks((prev) => [
+        ...prev,
+        {
+          name: `${bookValue.current.value}`,
+          author: `${authorValue.current.value}`,
+          priority: `${priorityNumber}/5`,
+          genre: `${genreValue.current.value}`,
+        },
+      ]);
+
+      let obj = [
+        ...books,
+        {
+          name: `${bookValue.current.value}`,
+          author: `${authorValue.current.value}`,
+          priority: `${priorityNumber}/5`,
+          genre: `${genreValue.current.value}`,
+        },
+      ];
+
+      bookValue.current.value = '';
+      authorValue.current.value = '';
+      priorityValue.current.value = 0;
+      genreValue.current.value = '';
+
+
+      localStorage.setItem("book", JSON.stringify(obj));
+      console.log(localStorage);
+      console.log(priorityValue.current.value);
+    }
   };
-
 
   return (
     <>
@@ -90,6 +116,9 @@ const Box = () => {
               bookValue={bookValue}
               priorityValue={priorityValue}
               genreValue={genreValue}
+              nameError={nameError}
+              authorError={authorError}
+              setPriorityNumber={setPriorityNumber}
             />
           }
         />
@@ -105,22 +134,24 @@ const Main = ({
   bookValue,
   priorityValue,
   genreValue,
-  getData
+  getData,
+  nameError,
+  authorError,
+  setPriorityNumber
 }) => {
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
 
-    useEffect(() => {
-        Aos.init({ duration: 2000 });
-      }, []);
-      
   return (
     <>
-      <Content data-aos="zoom-out-down"
-     data-aos-delay="100">
+      <Content data-aos="zoom-out-down" data-aos-delay="100">
         <ContentBox>
           <VideoBox>
             <TitleBar>
-              <Title data-aos="fade-down"
-     data-aos-delay="100">Read everywhere, with everyone.</Title>
+              <Title data-aos="fade-down" data-aos-delay="100">
+                Read everywhere, with everyone.
+              </Title>
             </TitleBar>
             <Video
               src={videos[Math.floor(Math.random() * 5)]}
@@ -132,15 +163,18 @@ const Main = ({
           <FormBox>
             <FormContent>
               <LogoBar>
-                <Image src={bookLogo} data-aos="zoom-in"
-     data-aos-delay="300"/>
+                <Image src={bookLogo} data-aos="zoom-in" data-aos-delay="300" />
               </LogoBar>
               <Form>
-                <SmallTitle data-aos="fade-left"
-     data-aos-delay="600">Add the book to your own library.</SmallTitle>
-                <InputsBox >
-                  <InputBar data-aos="fade-right"
-     data-aos-delay="300">
+                <SmallTitle data-aos="fade-left" data-aos-delay="600">
+                  Add the book to your own library.
+                </SmallTitle>
+                <InputsBox>
+                  <InputBar
+                    data-aos="fade-right"
+                    data-aos-delay="300"
+                    style={{ flexDirection: "column" }}
+                  >
                     <Label htmlFor="book">
                       <BookIcon />
                       <Input
@@ -150,10 +184,14 @@ const Main = ({
                         ref={bookValue}
                       />
                     </Label>
+                    <InputBar style={{color: 'red'}}>{nameError ? "Minimum 1 characters" : null}</InputBar>
                   </InputBar>
 
-                  <InputBar data-aos="fade-left"
-     data-aos-delay="600">
+                  <InputBar
+                    data-aos="fade-left"
+                    data-aos-delay="600"
+                    style={{ flexDirection: "column" }}
+                  >
                     <Label htmlFor="author">
                       <PersonIcon />
                       <Input
@@ -163,10 +201,10 @@ const Main = ({
                         ref={authorValue}
                       />
                     </Label>
+                    <InputBar style={{color: 'red'}}>{authorError ? "Minimum 3 characters" : null}</InputBar>
                   </InputBar>
 
-                  <InputBar data-aos="fade-right"
-     data-aos-delay="300">
+                  <InputBar data-aos="fade-right" data-aos-delay="300">
                     <Label
                       style={{
                         backgroundColor: "transparent",
@@ -174,7 +212,7 @@ const Main = ({
                         justifyContent: "space-around",
                       }}
                     >
-                      <span style={{fontSize: '2.5vmin'}}>Priority</span>
+                      <span style={{ fontSize: "2.5vmin" }}>Priority</span>
                       <div
                         style={{
                           display: "flex",
@@ -187,30 +225,35 @@ const Main = ({
                           value="1"
                           name="priority"
                           ref={priorityValue}
+                          onClick={() => setPriorityNumber(1)}
                         />
                         <Input
                           type="radio"
                           value="2"
                           name="priority"
                           ref={priorityValue}
+                          onClick={() => setPriorityNumber(2)}
                         />
                         <Input
                           type="radio"
                           value="3"
                           name="priority"
                           ref={priorityValue}
+                          onClick={() => setPriorityNumber(3)}
                         />
                         <Input
                           type="radio"
                           value="4"
                           name="priority"
                           ref={priorityValue}
+                          onClick={() => setPriorityNumber(4)}
                         />
                         <Input
                           type="radio"
                           value="5"
                           name="priority"
                           ref={priorityValue}
+                          onClick={() => setPriorityNumber(5)}
                         />
                       </div>
                     </Label>
@@ -219,7 +262,7 @@ const Main = ({
                   <InputBar
                     style={{ display: "flex", justifyContent: "flex-start" }}
                     data-aos="fade-up"
-     data-aos-delay="300"
+                    data-aos-delay="300"
                   >
                     <Select name="" id="" ref={genreValue}>
                       <option value="">Choose a literary genre...</option>
@@ -231,9 +274,9 @@ const Main = ({
 
                   <InputBar
                     style={{ display: "flex", justifyContent: "space-between" }}
-                    id='submit'
+                    id="submit"
                     data-aos="fade-up"
-     data-aos-delay="500"
+                    data-aos-delay="500"
                   >
                     <InputSubmit
                       placeholder="Book title"

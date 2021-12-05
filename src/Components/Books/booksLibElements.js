@@ -18,7 +18,7 @@ export const ContentBox = styled.div`
   display: flex;
   overflow: hidden;
   align-items: flex-end;
-  justify-content: space-between;
+  gap: 10px;
   padding: 0 10px;
   flex-wrap: wrap;
 

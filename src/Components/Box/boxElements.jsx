@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BsBook, BsStarHalf } from "react-icons/bs";
+import { BsBook } from "react-icons/bs";
 import { MdOutlinePerson } from "react-icons/md";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
@@ -258,6 +258,9 @@ export const Image = styled.img`
   }
 `
 
-export const SubmitBar = styled.div`
+export const SubmitBar = styled.div``
+
+
+export const ErrorBar = styled.div`
 
 `
