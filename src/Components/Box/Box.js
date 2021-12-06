@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, createRef, useEffect, createContext, useContext } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import { Route, Routes } from "react-router";
 import {
   BookIcon,
@@ -38,9 +38,7 @@ import BooksLib from "../Books/BooksLib";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-
 const Box = () => {
-  
   const videos = [video1, video2, video3, video4, video5];
 
   const bookValue = createRef();
@@ -49,12 +47,16 @@ const Box = () => {
   const genreValue = createRef();
 
   const [books, setBooks] = useState([]);
+
   const [nameError, setNameError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
-  const [priorityNumber, setPriorityNumber] = useState(1);
+  const [priorityError, setPriorityError] = useState(false);
+  const [genreError, setGenreError] = useState(false);
 
-  const [bookValueState, setBookValueState] = useState();
-  const [authorValueState, setAuthorValueState] = useState();
+  const [priorityNumber, setPriorityNumber] = useState(0);
+
+  const [bookValueState, setBookValueState] = useState('');
+  const [authorValueState, setAuthorValueState] = useState('');
   const [genreValueState, setGenreValueState] = useState();
 
   const [random, setRandom] = useState();
@@ -62,20 +64,26 @@ const Box = () => {
   const getBook = (e) => {
     e.preventDefault();
 
-    if (bookValue.current.value.length < 1) {
-      setNameError(true);
-    }
+    if (bookValue.current.value.length < 1) setNameError(true);
 
-    if (authorValue.current.value.length < 3) {
-      setAuthorError(true);
-    }
+    if (authorValue.current.value.length < 3) setAuthorError(true);
+
+    if (priorityNumber === 0) setPriorityError(true);
+
+    if (genreValueState === undefined || genreValueState === "")
+      setGenreError(true);
 
     if (
       authorValue.current.value.length >= 3 &&
-      bookValue.current.value.length >= 1
+      bookValue.current.value.length >= 1 &&
+      priorityNumber !== 0 &&
+      genreValueState !== undefined &&
+      genreValueState !== ""
     ) {
       setNameError(false);
       setAuthorError(false);
+      setPriorityError(false);
+      setGenreError(false);
 
       setBooks((prev) => [
         ...prev,
@@ -96,20 +104,19 @@ const Box = () => {
           genre: `${genreValue.current.value}`,
         },
       ];
-      
+
       localStorage.setItem("book", JSON.stringify(obj));
 
       setBookValueState("");
       setAuthorValueState("");
-      setPriorityNumber(1);
+      setPriorityNumber(0);
       setGenreValueState("");
-      
     }
   };
 
   useEffect(() => {
-    setRandom(Math.floor(Math.random() * 5))
-  }, [])
+    setRandom(Math.floor(Math.random() * 5));
+  }, []);
 
   return (
     <>
@@ -135,6 +142,8 @@ const Box = () => {
               genreValueState={genreValueState}
               setGenreValueState={setGenreValueState}
               random={random}
+              priorityError={priorityError}
+              genreError={genreError}
             />
           }
         />
@@ -153,6 +162,8 @@ const Main = ({
   getData,
   nameError,
   authorError,
+  genreError,
+  priorityError,
   setPriorityNumber,
   bookValueState,
   authorValueState,
@@ -160,12 +171,11 @@ const Main = ({
   setAuthorValueState,
   genreValueState,
   setGenreValueState,
-  random
+  random,
 }) => {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
-
 
   return (
     <>
@@ -177,7 +187,7 @@ const Main = ({
                 Read everywhere, with everyone.
               </Title>
             </TitleBar>
-            <Video src={videos[random]} autoPlay={true} muted loop={true}/>
+            <Video src={videos[random]} autoPlay={true} muted loop={true} />
           </VideoBox>
           <FormBox>
             <FormContent>
@@ -231,7 +241,11 @@ const Main = ({
                     </InputBar>
                   </InputBar>
 
-                  <InputBar data-aos="fade-right" data-aos-delay="300">
+                  <InputBar
+                    data-aos="fade-right"
+                    data-aos-delay="300"
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
                     <Label
                       style={{
                         backgroundColor: "transparent",
@@ -279,10 +293,17 @@ const Main = ({
                         />
                       </div>
                     </Label>
+                    <InputBar style={{ color: "red" }}>
+                      {priorityError ? "You have to choose priority" : null}
+                    </InputBar>
                   </InputBar>
 
                   <InputBar
-                    style={{ display: "flex", justifyContent: "flex-start" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      flexDirection: "column",
+                    }}
                     data-aos="fade-up"
                     data-aos-delay="300"
                   >
@@ -298,6 +319,9 @@ const Main = ({
                       <option value="Romance">Romance</option>
                       <option value="Crime">Crime</option>
                     </Select>
+                    <InputBar style={{ color: "red" }}>
+                      {genreError ? "Choose one of genre" : null}
+                    </InputBar>
                   </InputBar>
 
                   <InputBar
