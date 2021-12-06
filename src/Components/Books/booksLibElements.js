@@ -16,17 +16,22 @@ export const ContentBox = styled.div`
   box-shadow: 8px 8px 24px 0px rgba(50, 50, 57, 0.72);
   border-radius: 15px;
   display: flex;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
   align-items: flex-end;
   gap: 10px;
   padding: 0 10px;
   flex-wrap: wrap;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+  display: none;
+}
 
   
   @media screen and (max-width: 1200px)
   {
-    overflow: scroll;
-
     > a {
         width: 100%;
     }

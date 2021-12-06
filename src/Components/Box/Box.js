@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect, createContext, useContext } from "react";
 import { Route, Routes } from "react-router";
 import {
   BookIcon,
@@ -38,7 +38,9 @@ import BooksLib from "../Books/BooksLib";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
+
 const Box = () => {
+  
   const videos = [video1, video2, video3, video4, video5];
 
   const bookValue = createRef();
@@ -49,34 +51,40 @@ const Box = () => {
   const [books, setBooks] = useState([]);
   const [nameError, setNameError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
-
   const [priorityNumber, setPriorityNumber] = useState(1);
+
+  const [bookValueState, setBookValueState] = useState();
+  const [authorValueState, setAuthorValueState] = useState();
+  const [genreValueState, setGenreValueState] = useState();
+
+  const [random, setRandom] = useState();
 
   const getBook = (e) => {
     e.preventDefault();
 
     if (bookValue.current.value.length < 1) {
       setNameError(true);
-    } 
+    }
 
     if (authorValue.current.value.length < 3) {
       setAuthorError(true);
-
     }
 
-    if (authorValue.current.value.length >= 3 && bookValue.current.value.length >= 1) {
-
+    if (
+      authorValue.current.value.length >= 3 &&
+      bookValue.current.value.length >= 1
+    ) {
       setNameError(false);
       setAuthorError(false);
 
-      setBooks(prev => [
+      setBooks((prev) => [
         ...prev,
         {
           name: `${bookValue.current.value}`,
           author: `${authorValue.current.value}`,
           priority: `${priorityNumber}/5`,
           genre: `${genreValue.current.value}`,
-        }
+        },
       ]);
 
       const obj = [
@@ -88,15 +96,25 @@ const Box = () => {
           genre: `${genreValue.current.value}`,
         },
       ];
-
+      
       localStorage.setItem("book", JSON.stringify(obj));
+
+      setBookValueState("");
+      setAuthorValueState("");
+      setPriorityNumber(1);
+      setGenreValueState("");
+      
     }
   };
+
+  useEffect(() => {
+    setRandom(Math.floor(Math.random() * 5))
+  }, [])
 
   return (
     <>
       <Routes>
-        <Route path="/books" element={<BooksLib books={books}/>} />
+        <Route path="/books" element={<BooksLib books={books} />} />
         <Route
           path="/"
           element={
@@ -110,6 +128,13 @@ const Box = () => {
               nameError={nameError}
               authorError={authorError}
               setPriorityNumber={setPriorityNumber}
+              bookValueState={bookValueState}
+              authorValueState={authorValueState}
+              setBookValueState={setBookValueState}
+              setAuthorValueState={setAuthorValueState}
+              genreValueState={genreValueState}
+              setGenreValueState={setGenreValueState}
+              random={random}
             />
           }
         />
@@ -129,11 +154,18 @@ const Main = ({
   nameError,
   authorError,
   setPriorityNumber,
-  authorName, bookName, priorityName, genreName
+  bookValueState,
+  authorValueState,
+  setBookValueState,
+  setAuthorValueState,
+  genreValueState,
+  setGenreValueState,
+  random
 }) => {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
+
 
   return (
     <>
@@ -145,12 +177,7 @@ const Main = ({
                 Read everywhere, with everyone.
               </Title>
             </TitleBar>
-            <Video
-              src={videos[Math.floor(Math.random() * 5)]}
-              autoPlay={true}
-              muted
-              loop={true}
-            />
+            <Video src={videos[random]} autoPlay={true} muted loop={true}/>
           </VideoBox>
           <FormBox>
             <FormContent>
@@ -174,9 +201,13 @@ const Main = ({
                         name="book"
                         type="text"
                         ref={bookValue}
+                        value={bookValueState}
+                        onChange={(e) => setBookValueState(e.target.value)}
                       />
                     </Label>
-                    <InputBar style={{color: 'red'}}>{nameError ? "Minimum 1 character" : null}</InputBar>
+                    <InputBar style={{ color: "red" }}>
+                      {nameError ? "Minimum 1 character" : null}
+                    </InputBar>
                   </InputBar>
 
                   <InputBar
@@ -191,9 +222,13 @@ const Main = ({
                         name="author"
                         type="text"
                         ref={authorValue}
+                        value={authorValueState}
+                        onChange={(e) => setAuthorValueState(e.target.value)}
                       />
                     </Label>
-                    <InputBar style={{color: 'red'}}>{authorError ? "Minimum 3 characters" : null}</InputBar>
+                    <InputBar style={{ color: "red" }}>
+                      {authorError ? "Minimum 3 characters" : null}
+                    </InputBar>
                   </InputBar>
 
                   <InputBar data-aos="fade-right" data-aos-delay="300">
@@ -251,7 +286,13 @@ const Main = ({
                     data-aos="fade-up"
                     data-aos-delay="300"
                   >
-                    <Select name="" id="" ref={genreValue}>
+                    <Select
+                      name=""
+                      id=""
+                      ref={genreValue}
+                      value={genreValueState}
+                      onChange={(e) => setGenreValueState(e.target.value)}
+                    >
                       <option value="">Choose a literary genre...</option>
                       <option value="Thriller/Horror">Thriller/Horror</option>
                       <option value="Romance">Romance</option>
