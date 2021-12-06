@@ -28,8 +28,7 @@ export const VideoBox = styled.div`
   height: 100%;
   position: relative;
 
-  @media screen and (max-width: 1200px)
-  {
+  @media screen and (max-width: 1200px) {
     display: none;
   }
 `;
@@ -49,8 +48,7 @@ export const FormBox = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media screen and (max-width: 1200px)
-  {
+  @media screen and (max-width: 1200px) {
     width: 100%;
     justify-content: center;
   }
@@ -74,7 +72,6 @@ export const LogoBar = styled.div`
   font-size: 25px;
   font-weight: 500;
   justify-content: center;
-
 `;
 
 export const Title = styled.h1`
@@ -82,8 +79,7 @@ export const Title = styled.h1`
   font-size: 4vw;
   color: white;
 
-  @media screen and (max-width: 1200px)
-  {
+  @media screen and (max-width: 1200px) {
     font-size: 2em;
   }
 `;
@@ -118,16 +114,14 @@ export const InputsBox = styled.div`
   align-items: center;
 
   #submit {
-    @media screen and (max-width: 1200px)
-  {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    @media screen and (max-width: 1200px) {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
   }
-  }
-  
-  @media screen and (max-width: 1200px)
-  {
+
+  @media screen and (max-width: 1200px) {
     width: 90%;
   }
 `;
@@ -138,8 +132,6 @@ export const InputBar = styled.div`
   justify-content: center;
   flex-direction: row;
   align-items: center;
-
-
 `;
 
 export const Input = styled.input`
@@ -160,15 +152,13 @@ export const Input = styled.input`
 
   &[type="radio"] {
     position: relative;
-    
-
 
     &:hover {
       cursor: pointer;
     }
 
     &:checked {
-        &:after {
+      &:after {
         transition: 0.2s;
         background-color: #00afb9;
       }
@@ -193,7 +183,7 @@ export const InputSubmit = styled.input`
   font-size: 3vmin;
   color: white;
   background-color: #00afb9;
-  border: 2px solid #00afb9 ;
+  border: 2px solid #00afb9;
   outline: none;
   cursor: pointer;
   transition: 0.3s;
@@ -206,13 +196,12 @@ export const InputSubmit = styled.input`
 `;
 
 export const BookIcon = styled(BsBook)`
-      font-size: 2vmax;
+  font-size: 2vmax;
 `;
 
 export const PersonIcon = styled(MdOutlinePerson)`
-      font-size: 2vmax;
+  font-size: 2vmax;
 `;
-
 
 export const Label = styled.label`
   background-color: #dcdfe5;
@@ -238,15 +227,12 @@ export const Select = styled.select`
   outline: none;
   cursor: pointer;
   width: 100%;
-  
 
   > option {
     cursor: pointer;
   }
 
-  
-  @media screen and (max-width: 1200px)
-  {
+  @media screen and (max-width: 1200px) {
     padding: 0;
     width: 100%;
     font-size: 16px;
@@ -259,16 +245,11 @@ export const BookLink = styled(HiOutlineExternalLink)`
 export const Image = styled.img`
   width: 10vw;
 
-  
-  @media screen and (max-width: 1200px)
-  {
+  @media screen and (max-width: 1200px) {
     width: 20vw;
   }
-`
+`;
 
-export const SubmitBar = styled.div``
+export const SubmitBar = styled.div``;
 
-
-export const ErrorBar = styled.div`
-
-`
+export const ErrorBar = styled.div``;
