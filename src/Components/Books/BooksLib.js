@@ -14,8 +14,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 
 const BooksLib = () => {
-
-  let data = [JSON.parse(localStorage.getItem("book"))];
+  
+  let data = JSON.parse(localStorage.getItem("book"))
   console.log(data);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const BooksLib = () => {
         </Books>
         </div>
         <ContentBox>
-          {data[0] === null ? <div style={{height: '100%', display: 'flex', alignItems: 'center', marginLeft: '50px'}}>Add your first book!</div> : data[0].map((book, index) => (
+          {data === null ? <div style={{height: '100%', display: 'flex', alignItems: 'center', marginLeft: '50px'}}>Add your first book!</div> : data.map((book, index) => (
             <a
               style={{ cursor: "pointer", textDecoration: "none" }}
               href={`https://www.google.com/search?q=${book.name}`}

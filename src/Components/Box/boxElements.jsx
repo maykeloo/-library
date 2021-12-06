@@ -230,6 +230,7 @@ export const Select = styled.select`
   border: 2px solid #00afb9;
   outline: none;
   cursor: pointer;
+  width: 100%;
   
 
   > option {

@@ -34,7 +34,7 @@ import video5 from "../../video/5.mp4";
 
 import bookLogo from "../../images/book.png";
 import BooksLib from "../Books/BooksLib";
-
+//test
 import Aos from "aos";
 import "aos/dist/aos.css";
 
@@ -47,7 +47,6 @@ const Box = () => {
   const genreValue = createRef();
 
   const [books, setBooks] = useState([]);
-
   const [nameError, setNameError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
 
@@ -70,17 +69,17 @@ const Box = () => {
       setNameError(false);
       setAuthorError(false);
 
-      setBooks((prev) => [
+      setBooks(prev => [
         ...prev,
         {
           name: `${bookValue.current.value}`,
           author: `${authorValue.current.value}`,
           priority: `${priorityNumber}/5`,
           genre: `${genreValue.current.value}`,
-        },
+        }
       ]);
 
-      let obj = [
+      const obj = [
         ...books,
         {
           name: `${bookValue.current.value}`,
@@ -90,22 +89,14 @@ const Box = () => {
         },
       ];
 
-      bookValue.current.value = '';
-      authorValue.current.value = '';
-      priorityValue.current.value = 0;
-      genreValue.current.value = '';
-
-
       localStorage.setItem("book", JSON.stringify(obj));
-      console.log(localStorage);
-      console.log(priorityValue.current.value);
     }
   };
 
   return (
     <>
       <Routes>
-        <Route path="/books" element={<BooksLib books={books} />} />
+        <Route path="/books" element={<BooksLib books={books}/>} />
         <Route
           path="/"
           element={
@@ -137,7 +128,8 @@ const Main = ({
   getData,
   nameError,
   authorError,
-  setPriorityNumber
+  setPriorityNumber,
+  authorName, bookName, priorityName, genreName
 }) => {
   useEffect(() => {
     Aos.init({ duration: 2000 });
@@ -184,7 +176,7 @@ const Main = ({
                         ref={bookValue}
                       />
                     </Label>
-                    <InputBar style={{color: 'red'}}>{nameError ? "Minimum 1 characters" : null}</InputBar>
+                    <InputBar style={{color: 'red'}}>{nameError ? "Minimum 1 character" : null}</InputBar>
                   </InputBar>
 
                   <InputBar
@@ -224,35 +216,30 @@ const Main = ({
                           type="radio"
                           value="1"
                           name="priority"
-                          ref={priorityValue}
                           onClick={() => setPriorityNumber(1)}
                         />
                         <Input
                           type="radio"
                           value="2"
                           name="priority"
-                          ref={priorityValue}
                           onClick={() => setPriorityNumber(2)}
                         />
                         <Input
                           type="radio"
                           value="3"
                           name="priority"
-                          ref={priorityValue}
                           onClick={() => setPriorityNumber(3)}
                         />
                         <Input
                           type="radio"
                           value="4"
                           name="priority"
-                          ref={priorityValue}
                           onClick={() => setPriorityNumber(4)}
                         />
                         <Input
                           type="radio"
                           value="5"
                           name="priority"
-                          ref={priorityValue}
                           onClick={() => setPriorityNumber(5)}
                         />
                       </div>
