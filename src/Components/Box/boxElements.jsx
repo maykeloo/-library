@@ -193,9 +193,16 @@ export const InputSubmit = styled.input`
   font-size: 3vmin;
   color: white;
   background-color: #00afb9;
-  border: 2px solid white;
+  border: 2px solid #00afb9 ;
   outline: none;
   cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: white;
+    border: 2px solid #00afb9;
+    color: #00afb9;
+  }
 `;
 
 export const BookIcon = styled(BsBook)`
